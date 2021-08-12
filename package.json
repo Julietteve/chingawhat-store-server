@@ -16,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/Julietteve/chingawhat-store/issues"
   },
-  "homepage": "https://github.com/Julietteve/chingawhat-store#readme"
+  "homepage": "https://github.com/Julietteve/chingawhat-store#readme",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "4.17.1"
+  }
 }
