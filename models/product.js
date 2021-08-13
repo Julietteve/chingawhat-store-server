@@ -1,11 +1,15 @@
 class Product {
 
-    constructor(title, price, thumbnail, id) {
-        this.title = title, 
+    constructor( id, timestamp, name, description, code, thumbnail, price, stock){
+        this.id = id,
+        this.timestamp = timestamp,
+        this.name = name,
+        this.description = description,
+        this.code= code, 
+        this.thumbnail = thumbnail
         this.price = price,
-        this.thumbnail = thumbnail,
-        this.id = id
+        this.stock = stock
     }
-
 }
+
 module.exports = { Product }

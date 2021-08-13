@@ -12,4 +12,12 @@ const getLenArr = async (file) =>{
     }
 }
 
-module.exports = getLenArr
+function productHasMissingKeys (obj){
+    const hasMissingKeys = Object.values(obj).some( item => item == undefined )
+    return hasMissingKeys
+}
+
+module.exports = {
+    getLenArr,
+    productHasMissingKeys
+}

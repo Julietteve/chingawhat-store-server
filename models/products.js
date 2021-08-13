@@ -6,7 +6,6 @@ class Products {
         this.product = product;
     }
 
-
     showProducts = async () => {
         try{
             const data = await readFile('db/products.txt', 'utf-8')
@@ -18,17 +17,24 @@ class Products {
         }
 
     }
+
     showProductById = async (id) => {
         try{
             const data = await readFile('db/products.txt', 'utf-8')
             const parsedProducts = JSON.parse(data)
             const filteredById = parsedProducts.filter(product => product.id == id)
 
-                if(filteredById.length>0){
-                    return filteredById
-                }else{
-                    return {error : 'producto no encontrado'}
-                }
+            const response = {
+                data: filteredById
+            }
+
+            const error = {error : `El producto con ID ${id} no existe`}
+
+            if(filteredById.length>0){
+                return response
+            }else{
+                return error
+            }
         }
         catch(err){
             console.log(err)
@@ -36,11 +42,19 @@ class Products {
     }
 
     addProduct = async (product) => {
+
+        const response = {
+            msg : `Producto ID ${product.id}, ${product.name}: ${product.description} agregado`
+        }
+
         try{
             const data = await readFile('db/products.txt', 'utf-8')
             const parsedProducts = JSON.parse(data)
             parsedProducts.push(product)
             await writeFile('db/products.txt', JSON.stringify(parsedProducts, null, '\t')) 
+
+            return response
+
         }catch(err){
             console.log(err)
         }
@@ -56,14 +70,16 @@ class Products {
     
             await writeFile('db/products.txt', JSON.stringify(parsedProducts, null, '\t')) 
             
-                if(id != null){
-                   return({
-                        msg: ` Producto conn id ${product.id} actualizado`,
-                        data : product
-                    })
+            const response = {
+                    msg: ` Producto actualizado correctamente`,
+                    data : product
+            }
+
+                if( index >= 0){
+                   return(response)
                 }
                 else{
-                    return({error : 'producto no encontrado'})
+                    return({error : `Producto con id ${product.id} no encontrado`})
                 }
         }
         catch(err){
@@ -78,16 +94,20 @@ class Products {
             const parsedProducts = JSON.parse(data)
             const index = parsedProducts.findIndex(product => product.id == id)
             const deleted = parsedProducts.filter(item => item.id != id)
-    
+            
+            const response = {
+                msg: ` Producto ID:${id} eliminado`,
+                data : parsedProducts[index]
+            }
+
+            const error ={ error : 'producto no encontrado' }
+            
             await writeFile('db/products.txt', JSON.stringify(deleted, null, '\t')) 
-                if(id != null){
-                    return({
-                        msg: ` Producto ID:${id} eliminado`,
-                        data : parsedProducts[index]
-                    })
+                if( index >= 0 ){
+                    return response
                 }
                 else{
-                    return({error : 'producto no encontrado'})
+                    return error
                 }
         }
         catch(err){
