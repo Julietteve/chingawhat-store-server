@@ -6,23 +6,10 @@ class Products {
         this.product = product;
     }
 
-    showProducts = async () => {
+    showProducts = async (id = undefined) => {
         try{
             const data = await readFile('db/products.txt', 'utf-8')
             const parsedProducts = JSON.parse(data)
-            return parsedProducts
-        }
-        catch(err){
-            console.log(err)
-        }
-
-    }
-
-    showProductById = async (id) => {
-        try{
-            const data = await readFile('db/products.txt', 'utf-8')
-            const parsedProducts = JSON.parse(data)
-            const filteredById = parsedProducts.filter(product => product.id == id)
 
             const response = {
                 data: filteredById
@@ -30,10 +17,16 @@ class Products {
 
             const error = {error : `El producto con ID ${id} no existe`}
 
-            if(filteredById.length>0){
-                return response
-            }else{
-                return error
+            if( id === undefined ){
+                return parsedProducts
+            }
+            else{
+                const filteredById = parsedProducts.filter(product => product.id == id)
+                if(filteredById.length>0){
+                    return response
+                }else{
+                    return error
+                }
             }
         }
         catch(err){

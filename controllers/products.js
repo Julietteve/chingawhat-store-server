@@ -16,13 +16,6 @@ const getProducts  = async (req, res) => {
     res.json(products)
 }
 
-const getProduct = async (req, res) => {
-
-    const products = await stock.showProductById(req.params.id);
-
-    res.json(products)
-}
-
 // Agregar un producto (ADMIN)
 
 const postProduct = async (req,res)=>{
@@ -82,6 +75,7 @@ const putProduct = async (req,res) => {
            res.json(response);
        }
        else{
+           
             res.status(400).json({error: -1, descripción: `Envie todos los campos del nuevo producto`});
        }
 
@@ -95,18 +89,19 @@ const putProduct = async (req,res) => {
 
 const deleteProduct = async (req,res) => {
     if (admin) {
+
         const productDeleted = await stock.deleteProduct(req.params.id);
         res.json(productDeleted);
 
     } else {
+
         res.status(401).json({error: -1, descripción: `ruta /products método "DELETE" no autorizada`});
     }
 }
 
 module.exports = {
-    getProduct,
+    getProducts,
     postProduct,
     putProduct,
     deleteProduct,
-    getProducts
 }

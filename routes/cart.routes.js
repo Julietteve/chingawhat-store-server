@@ -3,9 +3,9 @@ const router = Router()
 const { getProductFromCart, postProductFromCart, deleteProductFromCart } = require('../controllers/cart')
 
 
-router.get('/:id', getProductFromCart)
+router.get('/:id?', getProductFromCart)
 
-router.post('/', postProductFromCart)
+router.post('/:id', postProductFromCart)
 
 router.delete('/:id', deleteProductFromCart)
 

@@ -1,4 +1,5 @@
 const { readFile, writeFile } = require('fs/promises');
+const { getLenArr } = require('../utils')
 
 class Cart {
 
@@ -6,17 +7,24 @@ class Cart {
         this.cart = cart;
     }
 
-    showCartById = async (id) => {
+    showCartById = async ( id = undefined ) => {
+        
         try{
-
             const data = await readFile('db/cart.txt', 'utf-8')
             const parsedProducts = JSON.parse(data)
-            const filteredById = parsedProducts.filter(product => product.id == id)
-    
-            if(filteredById.length>0){
-                return filteredById
-            }else{
-                return {error : 'producto no encontrado'}
+
+            if( id != undefined ){
+
+                const filteredById = parsedProducts.filter(product => product.id == id)
+               
+                if( filteredById.length>0 ){
+                    return filteredById
+                }else{
+                    return {error : 'producto no encontrado'}
+                }
+            }
+            else{
+                return parsedProducts
             }
         }
         catch(err){
@@ -24,15 +32,38 @@ class Cart {
         }
     }
 
-    addToCart = async (product) => {
-        try{
-            const data = await readFile('db/cart.txt', 'utf-8')
-            const parsedProducts = JSON.parse(data)
-            parsedProducts.push(product)
-            await writeFile('db/cart.txt', JSON.stringify(parsedProducts, null, '\t')) 
-            
-        }catch(err){
-            console.log(err)
+    addToCart = async (id) => {
+
+        const products = await readFile('db/products.txt', 'utf-8')
+        const parsedProducts = JSON.parse(products)
+        const index = parsedProducts.findIndex(item => item.id == id)
+        
+        const addedProduct = {
+                id :  await getLenArr('db/cart.txt'),
+                timestamp : new Date(),
+                products : parsedProducts[index]
+        }
+
+        const response = {
+            msg: `Carrito id ${id} registrado`,
+            data : addedProduct
+        }
+
+        const error = {
+            err: `Producto con id ${id} no registrado`,
+        }
+
+        if ( index >= 0 ){
+            try{
+                await writeFile('db/cart.txt', JSON.stringify(addedProduct, null, '\t')) 
+                return response
+    
+            }catch{
+                console.log(err)
+            }
+        }
+        else {
+            return error
         }
     }
 
@@ -51,7 +82,7 @@ class Cart {
                     })
                 }
                 else{
-                    return({error : 'producto no encontrado'})
+                    return({error : 'Carrito no encontrado'})
                 }
         }
         catch(err){
