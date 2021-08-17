@@ -15,7 +15,7 @@ const getProductFromCart = async (req, res) => {
 // Agregar un producto al carrito 
 const postProductFromCart = async (req,res)=>{
 
-    const addedProduct = await art.addToCart(req.params.id);
+    const addedProduct = await cart.addToCart(req.params.id);
 
     res.json(addedProduct);
 

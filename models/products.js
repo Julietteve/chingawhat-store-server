@@ -11,17 +11,20 @@ class Products {
             const data = await readFile('db/products.txt', 'utf-8')
             const parsedProducts = JSON.parse(data)
 
-            const response = {
-                data: filteredById
-            }
-
+            
             const error = {error : `El producto con ID ${id} no existe`}
 
             if( id === undefined ){
                 return parsedProducts
             }
             else{
+                
                 const filteredById = parsedProducts.filter(product => product.id == id)
+
+                const response = {
+                    data: filteredById
+                }
+    
                 if(filteredById.length>0){
                     return response
                 }else{

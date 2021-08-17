@@ -35,7 +35,9 @@ class Cart {
     addToCart = async (id) => {
 
         const products = await readFile('db/products.txt', 'utf-8')
+        const cart = await readFile('db/cart.txt', 'utf-8')
         const parsedProducts = JSON.parse(products)
+        const parsedCart = JSON.parse(cart)
         const index = parsedProducts.findIndex(item => item.id == id)
         
         const addedProduct = {
@@ -55,7 +57,8 @@ class Cart {
 
         if ( index >= 0 ){
             try{
-                await writeFile('db/cart.txt', JSON.stringify(addedProduct, null, '\t')) 
+                parsedCart.push(addedProduct)
+                await writeFile('db/cart.txt', JSON.stringify(parsedCart, null, '\t')) 
                 return response
     
             }catch{
