@@ -11,7 +11,7 @@ const admin = true;
 
 const getProducts  = async (req, res) => {
     
-    const products = await stock.showProducts();
+    const products = await stock.showProducts(req.params.id);
     
     res.json(products)
 }
@@ -75,7 +75,6 @@ const putProduct = async (req,res) => {
            res.json(response);
        }
        else{
-           
             res.status(400).json({error: -1, descripción: `Envie todos los campos del nuevo producto`});
        }
 

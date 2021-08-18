@@ -6,7 +6,7 @@ class Products {
         this.product = product;
     }
 
-    showProducts = async (id = undefined) => {
+    showProducts = async (id) => {
         try{
             const data = await readFile('db/products.txt', 'utf-8')
             const parsedProducts = JSON.parse(data)

@@ -39,12 +39,15 @@ class Cart {
         const parsedProducts = JSON.parse(products)
         const parsedCart = JSON.parse(cart)
         const index = parsedProducts.findIndex(item => item.id == id)
-        
-        const addedProduct = {
+        console.log(index)
+        console.log(id)
+        const addedCart = {
                 id :  await getLenArr('db/cart.txt'),
                 timestamp : new Date(),
-                products : parsedProducts[index]
+                products : [parsedProducts[index]]
         }
+
+        const addedProduct = parsedProducts[index]
 
         const response = {
             msg: `Carrito id ${id} registrado`,
@@ -55,29 +58,43 @@ class Cart {
             err: `Producto con id ${id} no registrado`,
         }
 
-        if ( index >= 0 ){
             try{
-                parsedCart.push(addedProduct)
-                await writeFile('db/cart.txt', JSON.stringify(parsedCart, null, '\t')) 
-                return response
+                if(parsedCart.length != 0){
+                    if(index >= 0){
+                        parsedCart[0].products.push(addedProduct)
+                        await writeFile('db/cart.txt', JSON.stringify(parsedCart, null, '\t')) 
+                        return response
+                    }
+                    else{
+                        return error
+                    }
+                }
+                else{
+                    parsedCart.push(addedCart)
+                    await writeFile('db/cart.txt', JSON.stringify(parsedCart, null, '\t')) 
+                    return response
+                }
     
-            }catch{
+            }catch(err){
                 console.log(err)
             }
-        }
-        else {
-            return error
-        }
+
     }
 
     deleteProduct = async (id) => {
         try{
             const data = await readFile('db/cart.txt', 'utf-8')
             const parsedProducts = JSON.parse(data)
-            const index = parsedProducts.findIndex(product => product.id == id)
-            const deleted = parsedProducts.filter(item => item.id != id)
+            const index = parsedProducts[0].products.findIndex(product => product.id == id)
+            const deleted = parsedProducts[0].products.filter(item => item.id != id)
+
+            const addedCart = [{
+                id :  await getLenArr('db/cart.txt'),
+                timestamp : new Date(),
+                products : deleted
+            }]
     
-            await writeFile('db/cart.txt', JSON.stringify(deleted, null, '\t')) 
+            await writeFile('db/cart.txt', JSON.stringify(addedCart, null, '\t')) 
                 if(id != null){
                     return({
                         msg: ` Producto ID:${id} eliminado`,
