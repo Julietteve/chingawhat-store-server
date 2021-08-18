@@ -1,7 +1,18 @@
 [
 	{
 		"id": 2,
-		"timestamp": "2021-08-18T03:18:17.090Z",
-		"products": []
+		"timestamp": "2021-08-18T23:45:45.450Z",
+		"products": [
+			{
+				"id": 4,
+				"timestamp": "2021-08-18T23:26:13.627Z",
+				"name": "Nemesis Skull",
+				"description": "Decorada con violetas, este cráneo humano negro tiene enredadera verdes que crecen a su alrededor, simbolizando la vida que renace de la muerte. El regalo perfecto para aquellos que necesitan un hogar protegido por los espíritus de los muertos.",
+				"code": "123",
+				"thumbnail": "https://1.bp.blogspot.com/-WndZzWKf_b8/XsGCI-yX5SI/AAAAAAAAHas/C-i4gBhvA-QEbeTGOnBX4E4ZvbwBBtz5QCLcBGAsYHQ/s1600/calavera%2Bmexicana.jpg",
+				"price": "2245",
+				"stock": "23"
+			}
+		]
 	}
 ]
