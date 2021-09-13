@@ -1,6 +1,13 @@
 require('dotenv').config()
 const  app  = require("./server")
 const { PORT } = require("./config/globals")
+const {dbConnection } = require('./database/config.db')
+
+const  connect = async () => {
+    await dbConnection()
+}
+
+connect()
 
 //Open connection
 app.listen( PORT, ()=>{

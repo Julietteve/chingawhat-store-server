@@ -15,4 +15,6 @@ app.use(cors())
 app.use('/productos', require('./routes/product.routes'))
 app.use('/carrito', require('./routes/cart.routes'))
 
+
+
 module.exports = app
